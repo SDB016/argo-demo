@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: bookinfo
+    namespace: argo
+spec:
+    project: default
+    source:
+        repoURL: https://github.com/SDB016/argo-demo.git
+        path: src/bookinfo/manifests
+        targetRevision: HEAD
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: bookinfo
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
