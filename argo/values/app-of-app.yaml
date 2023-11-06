@@ -22,7 +22,7 @@ applications:
       path: istio/applications
     destination:
       server: https://kubernetes.default.svc
-      namespace: istio-system
+      namespace: argocd
     syncPolicy:
       automated:
         prune: true
