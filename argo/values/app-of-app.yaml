@@ -5,7 +5,7 @@ projects:
     sourceRepos:
       - '*'
     destinations:
-      - namespace: 'istio-*'
+      - namespace: '*'
         server: '*'
     clusterResourceWhitelist:
       - group: '*'
