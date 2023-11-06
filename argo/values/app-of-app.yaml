@@ -10,6 +10,17 @@ projects:
     clusterResourceWhitelist:
       - group: '*'
         kind: '*'
+  - name: bookinfo
+    namespace: argocd
+    description: bookinfo project
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
 applications:
   - name: istio-app-of-app
     namespace: argocd
@@ -20,6 +31,24 @@ applications:
       repoURL: https://github.com/SDB016/argo-demo.git
       targetRevision: HEAD
       path: istio/applications
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: argocd
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace=true
+  - name: bookinfo-app-of-app
+    namespace: argocd
+    project: bookinfo
+    additionalAnnotations:
+        "helm.sh/resource-policy": keep
+    source:
+      repoURL: https://github.com/SDB016/argo-demo.git
+      targetRevision: HEAD
+      path: bookinfo/applications
     destination:
       server: https://kubernetes.default.svc
       namespace: argocd
