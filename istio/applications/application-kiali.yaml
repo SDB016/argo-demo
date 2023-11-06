@@ -11,7 +11,7 @@ spec:
           path: istio/addons
         - repoURL: https://kiali.org/helm-charts
           chart: kiali-operator
-          targetRevision: latest
+          targetRevision: 1.76.0
           helm:
             valueFiles:
             - ../values/kiali-values.yaml
