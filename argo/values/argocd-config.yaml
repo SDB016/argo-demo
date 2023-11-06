@@ -9,5 +9,3 @@ controller:
   replicas: 1
 redis:
   enabled: true
-# redis-ha:
-#   enabled: true

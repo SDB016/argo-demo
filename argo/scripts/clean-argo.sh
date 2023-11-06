@@ -1,4 +1,5 @@
 #!/bin/bash
 
-helm -n argo uninstall argocd
-kubectl delete ns argo
+helm -n argocd uninstall argocd
+helm -n argocd uninstall argo-apps
+kubectl delete ns argocd

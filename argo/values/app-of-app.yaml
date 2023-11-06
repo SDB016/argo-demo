@@ -1,0 +1,52 @@
+projects:
+  - name: istio
+    namespace: argocd
+    description: istio project
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: 'istio-*'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+applications:
+  # - name: istiogateway-app-of-app
+  #   namespace: argocd
+  #   project: istio
+  #   additionalAnnotations:
+  #       "helm.sh/resource-policy": keep
+  #   finalizers:
+  #     - resources-finalizer.argocd.argoproj.io
+  #   source:
+  #     repoURL: https://github.com/SDB016/argo-demo.git
+  #     targetRevision: HEAD
+  #     path: istio/applications/application-istio-ingress.yaml
+  #   destination:
+  #     server: https://kubernetes.default.svc
+  #     namespace: istio-ingress
+  #   syncPolicy:
+  #     automated:
+  #       prune: true
+  #       selfHeal: true
+  #     syncOptions:
+  #       - CreateNamespace=true
+  - name: istio-app-of-app
+    namespace: argocd
+    project: istio
+    additionalAnnotations:
+        "helm.sh/resource-policy": keep
+    source:
+      repoURL: https://github.com/SDB016/argo-demo.git
+      targetRevision: HEAD
+      path: istio/applications
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: istio-system
+    syncPolicy:
+      # automated:
+      #   prune: true
+      #   selfHeal: true
+      syncOptions:
+        - CreateNamespace=true
+
