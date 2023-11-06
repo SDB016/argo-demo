@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+    name: kiali
+    namespace: argocd
+spec:
+    project: istio
+    sources:
+        - repoURL: https://github.com/SDB016/argo-demo.git
+          targetRevision: HEAD
+          path: istio/addons
+        - repoURL: https://kiali.org/helm-charts
+          chart: kiali-operator
+          targetRevision: latest
+          helm:
+            valueFiles:
+            - ../values/kiali-values.yaml
+    destination:
+        server: https://kubernetes.default.svc
+        namespace: istio-system
+    syncPolicy:
+        automated:
+            prune: true
+            selfHeal: true
+        syncOptions:
+        - CreateNamespace=true
