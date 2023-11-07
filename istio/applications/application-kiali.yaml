@@ -13,8 +13,6 @@ spec:
           chart: kiali-operator
           targetRevision: 1.76.0
           helm:
-            valueFiles:
-                - values.yaml
             values: |
               cr:
                 create: true
@@ -22,11 +20,6 @@ spec:
                 spec:
                     auth:
                         strategy: anonymous
-            externalValueFiles:
-                - repoURL: https://github.com/SDB016/argo-demo.git
-                  targetRevision: HEAD
-                  valueFiles:
-                    - istio/values/kiali-values.yaml
     destination:
         server: https://kubernetes.default.svc
         namespace: istio-system
