@@ -15,6 +15,13 @@ spec:
           helm:
             valueFiles:
                 - values.yaml
+            values: |
+              cr:
+                create: true
+                namespace: istio-system
+                spec:
+                    auth:
+                        strategy: anonymous
             externalValueFiles:
                 - repoURL: https://github.com/SDB016/argo-demo.git
                   targetRevision: HEAD
