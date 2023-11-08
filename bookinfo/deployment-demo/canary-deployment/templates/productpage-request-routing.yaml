@@ -1,0 +1,51 @@
+kind: DestinationRule
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  namespace: bookinfo
+  name: productpage
+spec:
+  host: productpage.bookinfo.svc.cluster.local
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  namespace: bookinfo
+  name: productpage
+spec:
+  http:
+    - match:
+        - uri:
+            prefix: /productpage/v1
+      rewrite:
+        uri: /productpage
+      route:
+        - destination:
+            host: productpage.bookinfo.svc.cluster.local
+            subset: v1
+          weight: 100
+    - match:
+        - uri:
+            prefix: /productpage/v2
+      rewrite:
+        uri: /productpage
+      route:
+        - destination:
+            host: productpage.bookinfo.svc.cluster.local
+            subset: v2
+          weight: 100
+    - route:
+        - destination:
+            host: productpage.bookinfo.svc.cluster.local
+            subset: v1
+          weight: 100
+  hosts:
+    - '*'
+  gateways:
+    - bookinfo/bookinfo-gw
