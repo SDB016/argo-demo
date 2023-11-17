@@ -21,7 +21,7 @@ promote 후에도 이전 버전 replicaSet이 유지가 되므로 롤백 가능�
 
 rollouts의 spec 중 `scaleDownDelaySeconds` 옵션에서 이전 버전의 replicaSet이 scale down되는 것을 지연시키는 설정이 있다.(기본 30초)
 
-![Untitled](images/11.png)
+![Untitled](../../images/11.png)
 
 ## preview 버전의 자원 사용량에 대한 부담
 
@@ -37,7 +37,7 @@ preview 버전을 테스트 중에 오류를 발견해 새로운 Preview버전�
 
 `revisionHistoryLimit`에서 저장하고 있을 revision 갯수를 지정할 수 있다.
 
-![Untitled](images/22.png)
+![Untitled](../../images/22.png)
 
 위 그림은 revision1에 active 상태인 버전이 있고, 
 
