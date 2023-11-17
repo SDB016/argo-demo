@@ -1,0 +1,15 @@
+# kind: Gateway
+# apiVersion: networking.istio.io/v1alpha3
+# metadata:
+#   name: demo-gw
+#   namespace: demo
+# spec:
+#   selector:
+#     istio: ingressgateway
+#   servers:
+#   - port:
+#       number: 9080
+#     name: http-demo
+#     protocol: HTTP
+#     hosts:
+#         - "*"

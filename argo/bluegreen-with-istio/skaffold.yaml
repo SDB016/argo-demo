@@ -1,0 +1,12 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: bluegreen-with-istio
+deploy:
+  helm:
+    releases:
+      - name: bluegreen-with-istio
+        chartPath: .
+        valuesFiles:
+          - values.yaml
+        version: 0.1.0
