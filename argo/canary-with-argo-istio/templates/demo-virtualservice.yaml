@@ -30,33 +30,7 @@ spec:
             host: canary-demo-service.demo.svc.cluster.local
             subset: v2
           weight: 0
-      match:
-        - headers:
-            end-user:
-              exact: dbg
-    - name: canary
-      route:
-        - destination:
-            host: canary-demo-service.demo.svc.cluster.local
-            subset: v1
-          weight: 0
-        - destination:
-            host: canary-demo-service.demo.svc.cluster.local
-            subset: v2
-          weight: 100
-      match:
-        - headers:
-            end-user:
-              exact: dongbin
-    - route:
-        - destination:
-            host: canary-demo-service.demo.svc.cluster.local
-            subset: v1
-          weight: 50
-        - destination:
-            host: canary-demo-service.demo.svc.cluster.local
-            subset: v2
-          weight: 50
+    # rollout이 step에 따라 라우팅 규칙을 자동으로 추가한다.
   hosts:
     - canary-demo-service.demo.svc.cluster.local
   gateways:
