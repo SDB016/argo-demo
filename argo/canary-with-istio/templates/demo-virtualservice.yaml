@@ -1,0 +1,61 @@
+kind: DestinationRule
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  namespace: demo
+  name: canary-demo-dr
+spec:
+  host: canary-demo-service.demo.svc.cluster.local
+  subsets:
+    - name: v1
+      labels:
+        version: v1
+    - name: v2
+      labels:
+        version: v2
+---
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  namespace: demo
+  name: canary-demo-vs
+spec:
+  http:
+    - route:
+        - destination:
+            host: canary-demo-service.demo.svc.cluster.local
+            subset: v1
+          weight: 100
+        - destination:
+            host: canary-demo-service.demo.svc.cluster.local
+            subset: v2
+          weight: 0
+      match:
+        - headers:
+            end-user:
+              exact: dbg
+    - route:
+        - destination:
+            host: canary-demo-service.demo.svc.cluster.local
+            subset: v1
+          weight: 0
+        - destination:
+            host: canary-demo-service.demo.svc.cluster.local
+            subset: v2
+          weight: 100
+      match:
+        - headers:
+            end-user:
+              exact: dongbin
+    - route:
+        - destination:
+            host: canary-demo-service.demo.svc.cluster.local
+            subset: v1
+          weight: 50
+        - destination:
+            host: canary-demo-service.demo.svc.cluster.local
+            subset: v2
+          weight: 50
+  hosts:
+    - canary-demo-service.demo.svc.cluster.local
+  gateways:
+    - demo/demo-gw
