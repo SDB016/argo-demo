@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+    name: rollout-demo
+    namespace: demo
+spec:
+    replicas: 1
+    revisionHistoryLimit: 2
+    selector:
+        matchLabels:
+            app: canary-demo
+    template:
+        metadata:
+            labels:
+                app: canary-demo
+        spec:
+            containers:
+            - name: canary-demo
+              image: argoproj/rollouts-demo:blue
+              ports:
+              - containerPort: 8080
+                name: demo-port
+    strategy:
+        canary:
+            trafficRouting:
+                managedRoutes:
+                    - name: header-route
+                istio:
+                    virtualService:
+                        name: canary-demo-vs
+                        routes:
+                            - primary
+                            - canary
+                    destinationRule:
+                        name: canary-demo-dr
+                        stableSubsetName: v1
+                        canarySubsetName: v2
+            steps:
+            - setCanaryScale:
+                weight: 50
+            - setHeaderRoute:
+                name: header-route
+                match:
+                - headerName: end-user
+                  headerValue:
+                    exact: dongbin
+            - pause:
+                duration: 5m
+            - setMirrorRoute:
+                name: header-route
